@@ -24,7 +24,7 @@ pipeline {
       steps {
         sh '''
         #!/bin/bash
-        set -o pipefail
+        set -e
         ### Ensure that no policy contains permissions on sys/ with the exception of the base policy-edit.
         grep -rq --exclude=README --exclude=terraform --exclude=vault --exclude=Jenkinsfile --exclude=vault_policies.tf sys * && echo "Potentially offending policy" && /bin/false || echo "Policy ok" && /bin/true
         '''
