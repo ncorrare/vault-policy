@@ -18,7 +18,7 @@ pipeline {
     }
     stage('Policy Validation') {
       steps {
-        sh ''''
+        sh '''
         set -e
         ### Ensure that no policy contains permissions on sys/ with the exception of the base policy-edit.
         grep -re '!(^.+ path "sys.+)' --exclude vault_policies.tf --exclude Jenkinsfile *
