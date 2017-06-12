@@ -18,11 +18,11 @@ pipeline {
     }
     stage('Policy Validation') {
       steps {
-        sh """
+        sh '''
         set -e
         ### Ensure that no policy contains permissions on sys/ with the exception of the base policy-edit.
         grep -rq sys --exclude=Jenkinsfile --exclude=vault_policies.tf *; [ $? -gt 0 ] && echo "Policy validated succesfully" || echo "Potentially offending policy found" && /bin/false
-        """
+        '''
       }
     }
     stage('Dry Run') {
