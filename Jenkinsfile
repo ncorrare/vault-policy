@@ -7,8 +7,12 @@ pipeline {
   stages { 
     stage('Prepare environment') {
       steps {
-        sh 'curl -o vault.zip https://releases.hashicorp.com/vault/${vault_version}/vault_${vault_version}_linux_arm.zip ; yes | unzip vault.zip'
-        sh 'curl -o terraform.zip https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_arm.zip ; yes | unzip terraform.zip'
+        sh '''
+        curl -o vault.zip https://releases.hashicorp.com/vault/${vault_version}/vault_${vault_version}_linux_arm.zip ; yes | unzip vault.zip
+        curl -o terraform.zip https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_arm.zip ; yes | unzip terraform.zip
+        rm -rf terraform.zip
+        rm -rf vault.zip
+        '''
       }
     }  
     stage('Validation') {
@@ -21,7 +25,7 @@ pipeline {
         sh '''
         set -e
         ### Ensure that no policy contains permissions on sys/ with the exception of the base policy-edit.
-        grep -rq sys --exclude=Jenkinsfile --exclude=vault_policies.tf *; [ $? -gt 0 ] && echo "Policy validated succesfully" || echo "Potentially offending policy found" && /bin/false
+        grep -rq sys --exclude=terraform --exclude=vault --exclude=Jenkinsfile --exclude=vault_policies.tf *; [ $? -gt 0 ] && echo "Policy validated succesfully" || echo "Potentially offending policy found" && /bin/false
         '''
       }
     }
