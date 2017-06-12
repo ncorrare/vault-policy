@@ -18,11 +18,11 @@ pipeline {
     }
     stage('Policy Validation') {
       steps {
-        sh '''
+        sh """
         set -e
         ### Ensure that no policy contains permissions on sys/ with the exception of the base policy-edit.
-        grep -rie \'path "sys\' --include *.tf --exclude vault_policies.tf *
-        '''
+        grep -rie 'path "sys' --include *.tf --exclude vault_policies.tf *
+        """
       }
     }
     stage('Dry Run') {
