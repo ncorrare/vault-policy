@@ -21,7 +21,7 @@ pipeline {
         sh '''
         set -e
         ### Ensure that no policy contains permissions on sys/ with the exception of the base policy-edit.
-        grep -re '!(^.+ path "sys.+)' --include *.tf --exclude vault_policies.tf *
+        grep -re '!(^.+ path "sys.+)' --include \*.tf --exclude vault_policies.tf \*
         '''
       }
     }
@@ -30,7 +30,7 @@ pipeline {
         sh './terraform apply'
       }
     }
-    stage('Integration Tests') {
+    stage('Apply policy') {
       steps {
         withCredentials([string(credentialsId: 'role', variable: 'ROLE_ID'),string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
         sh '''
