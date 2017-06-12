@@ -30,12 +30,7 @@ pipeline {
         '''
       }
     }
-    stage('Dry Run') {
-      steps {
-        sh './terraform apply'
-      }
-    }
-    stage('Apply policy') {
+    stage('Obtain Vault Token') {
       steps {
         withCredentials([string(credentialsId: 'role', variable: 'ROLE_ID'),string(credentialsId: 'VAULTTOKEN', variable: 'VAULT_TOKEN')]) {
         sh '''
@@ -46,12 +41,21 @@ pipeline {
           export SECRET_ID=$(./vault write -field=secret_id -f auth/approle/role/java-example/secret-id)
           export VAULT_TOKEN=$(./vault write -field=token auth/approle/login role_id=${ROLE_ID} secret_id=${SECRET_ID})
           echo $VAULT_TOKEN > ~/.vault-token
-          ./terraform apply
-        '''
+          '''
         }
       }
+    }    
+    stage('Dry Run') {
+      steps {
+        sh './terraform plan'
+      }
     }
-  }
+    stage('Apply policy') {
+      steps {
+       sh './terraform apply'
+      }
+    }
+  }  
   environment {
     terraform_version = '0.9.4'
     VAULT_ADDR        = 'https://vault.service.lhr.consul:8200/'
