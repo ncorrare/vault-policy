@@ -1,11 +1,11 @@
 Whenever adopting any new software products there are operational considerations. Particularly in the case of HashiCorp Vault, a centralised secret management solution is a double edge sword, where the security is only as good as the governance around it.
  
 Maintaining a complex set of policies in Vault generally requires collaboration within a number of personas:
-A developer, or application architect, that requires access to a set of secrets.
-A security officer, that reviews the policy and ultimately approves access.
-An operator, that generally implements the policy.
-A compliance officer, or auditor, that needs full traceability on the what, how and when policies were changed.
-Above all things, policy changes need to be enforced, auditable, and easily tested. Policy needs to be versioned, and stored in a way where it can be underestimated easy scrutiny, because in this case, the more exposure policy gets, the easier to find problems with it.
+- A developer, or application architect, that requires access to a set of secrets.
+- A security officer, that reviews the policy and ultimately approves access.
+- An operator, that generally implements the policy.
+- A compliance officer, or auditor, that needs full traceability on the what, how and when policies were changed.
+Above all things, policy changes need to be enforced, auditable, and easily tested. Policy needs to be versioned, and stored in a way where it can be under easy scrutiny, because in this case, the more exposure policy gets, the easier to find problems with it.
 There is the need for a tool that can be imperative when it comes to policy, that can take any version of the policy and quickly evaluate the differences between the actual state and the desired state.
 Finally, in an agile world, we need a way to ensure that policy can be evaluated quickly and integrated into Vault, reducing the time between the requirement and the implementation. Ideally, we would need to implement a workflow in software that allows to quickly request, validate, integrate, and push policy changes reducing the possibility of failures to be introduced while keeping a close loop.
  
